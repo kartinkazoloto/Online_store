@@ -4,7 +4,7 @@
 
 1.  Клонируйте репозиторий:
     ```bash
-#    git clone https://github.com/
+    git clone https://github.com/kartinkazoloto/Online_store
     ```
 2.  Перейдите в директорию:
     ```bash
