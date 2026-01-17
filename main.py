@@ -1,4 +1,4 @@
-from main import Product, Category
+from src.classes import Product, Category
 
 
 if __name__ == "__main__":
