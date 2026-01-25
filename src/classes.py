@@ -58,14 +58,14 @@ class Category:
         Category.category_count += 1
         Category.product_count += len(self.__products) if products else 0
 
-    def add_product(self, product: Product):
-        for new_product in self.__products:
+    def add_product(self, new_product: Product):
+        for product in self.__products:
             if new_product.name == product.name:
                 new_product.price = max(new_product.price, product.price)
                 new_product.quantity += product.quantity
                 return
 
-        self.__products.append(product)
+        self.__products.append(new_product)
         self.product_count += 1
         Category.product_count += 1
 
