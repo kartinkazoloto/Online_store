@@ -5,13 +5,14 @@ class Product:
     quantity: int
 
     def __init__(self, name, description, price, quantity):
-        self.name = name
-        self.description = description
-        self.__price = price
-        self.quantity = quantity
+        self.name = name  # название
+        self.description = description # описание
+        self.__price = price  # цена
+        self.quantity = quantity  # количество в наличии
 
     @classmethod
     def new_product(cls, product_data: dict):
+        """"Метод для создания нового продукта"""
         name = product_data["name"]
         description = product_data["description"]
         price = product_data["price"]
@@ -43,6 +44,17 @@ class Product:
             print(f"Установлена цена продукта: {self.__price} руб.")
 
 
+    def __str__(self):
+        """Метод для отображения информации для разработчика"""
+        return f"{self.name}, {self.price} руб. Остаток: {self.quantity} шт."
+
+
+    def __add__(self, other):
+        """Метод возвращает сумму произведений цены на количество или сумму всех товаров на складе."""
+        total_amount = self.quantity * self.price + other.quantity * other.price
+        return total_amount
+
+
 class Category:
     name: str
     description: str
@@ -51,14 +63,16 @@ class Category:
     category_count: int = 0
 
     def __init__(self, name, description, products):
-        self.name = name
-        self.description = description
-        self.__products = products if products else []
-        self.product_count = len(self.__products) if products else 0
-        Category.category_count += 1
+        self.name = name  # название
+        self.description = description  # описание
+        self.__products = products if products else []  # список товаров категории
+        self.product_count = len(self.__products) if products else 0  # количество товаров.
+        Category.category_count += 1  # количество категорий
         Category.product_count += len(self.__products) if products else 0
 
     def add_product(self, new_product: Product):
+        """Метод для добавления нового продукта в категорию, при совпадении наименования -
+         установление максимального прайса и сложение количества"""
         for product in self.__products:
             if new_product.name == product.name:
                 new_product.price = max(new_product.price, product.price)
@@ -68,6 +82,14 @@ class Category:
         self.__products.append(new_product)
         self.product_count += 1
         Category.product_count += 1
+
+
+    def __str__(self):
+        """Метод __str__ рассчитывает общее количество товаров на складе (quantity) для каждого продукта в приватном атрибуте
+        products"""
+        total_quantity = sum(product.quantity for product in self.__products)
+        return f"{self.name}, количество продуктов: {total_quantity} шт."
+
 
     @property
     def products(self):
