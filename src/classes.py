@@ -6,13 +6,13 @@ class Product:
 
     def __init__(self, name, description, price, quantity):
         self.name = name  # название
-        self.description = description # описание
+        self.description = description  # описание
         self.__price = price  # цена
         self.quantity = quantity  # количество в наличии
 
     @classmethod
     def new_product(cls, product_data: dict):
-        """"Метод для создания нового продукта"""
+        """ "Метод для создания нового продукта"""
         name = product_data["name"]
         description = product_data["description"]
         price = product_data["price"]
@@ -43,11 +43,9 @@ class Product:
                 self.__price = new_price
             print(f"Установлена цена продукта: {self.__price} руб.")
 
-
     def __str__(self):
         """Метод для отображения информации для разработчика"""
         return f"{self.name}, {self.price} руб. Остаток: {self.quantity} шт."
-
 
     def __add__(self, other):
         """Метод возвращает сумму произведений цены на количество или сумму всех товаров на складе."""
@@ -72,24 +70,21 @@ class Category:
 
     def add_product(self, new_product: Product):
         """Метод для добавления нового продукта в категорию, при совпадении наименования -
-         установление максимального прайса и сложение количества"""
+        установление максимального прайса и сложение количества"""
         for product in self.__products:
-            if new_product.name == product.name:
-                new_product.price = max(new_product.price, product.price)
-                new_product.quantity += product.quantity
+            if product.name == new_product.name:
+                product.price = max(product.price, new_product.price)
+                product.quantity += new_product.quantity
                 return
-
         self.__products.append(new_product)
         self.product_count += 1
         Category.product_count += 1
 
-
     def __str__(self):
-        """Метод __str__ рассчитывает общее количество товаров на складе (quantity) для каждого продукта в приватном атрибуте
-        products"""
+        """Метод __str__ рассчитывает общее количество товаров на складе (quantity) для каждого продукта
+         в приватном атрибуте products"""
         total_quantity = sum(product.quantity for product in self.__products)
         return f"{self.name}, количество продуктов: {total_quantity} шт."
-
 
     @property
     def products(self):
@@ -97,3 +92,4 @@ class Category:
         for product in self.__products:
             lines.append(f"{product.name}, {product.price} руб. Остаток: {product.quantity} шт.")
         return "\n".join(lines)
+

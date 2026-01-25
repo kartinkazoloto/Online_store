@@ -72,3 +72,25 @@ def test_add_product_duplicate_update():
     expected_line = "Кофемашина, 32000.0 руб. Остаток: 5 шт."
     assert expected_line in category.products
     assert category.product_count == 1
+
+
+def test_product__str__():
+    product = Product("Пылесос", "Робот", 25000.0, 5)
+    result = str(product)
+    assert result == "Пылесос, 25000.0 руб. Остаток: 5 шт."
+
+
+def test_product__add__():
+    prod_1 = Product("Кофемашина", "Автоматическая", 30000.0, 3)
+    prod_2 = Product("Пылесос", "Робот", 25000.0, 5)
+    result = prod_1 + prod_2
+    assert result == 215000.0
+
+
+def test_category__str__():
+    """Метод __str__ рассчитывает общее количество товаров на складе (quantity)
+    для каждого продукта в приватном атрибуте products"""
+    existing = Product("Кофемашина", "Автоматическая", 30000.0, 3)
+    category = Category("Кухня", "Техника для приготовления", [existing])
+    result = str(category)
+    assert result == "Кухня, количество продуктов: 3 шт."
