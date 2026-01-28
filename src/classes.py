@@ -49,8 +49,30 @@ class Product:
 
     def __add__(self, other):
         """Метод возвращает сумму произведений цены на количество или сумму всех товаров на складе."""
-        total_amount = self.quantity * self.price + other.quantity * other.price
-        return total_amount
+        if type(self) == type(other):
+            total_amount = self.quantity * self.price + other.quantity * other.price
+            return total_amount
+        raise TypeError
+
+
+
+class Smartphone(Product):
+
+    def __init__(self, name, description, price, quantity, efficiency, model, memory, color):
+        super().__init__(name, description, price, quantity)
+        self.efficiency = efficiency  # производительность
+        self.model = model          # модель
+        self.memory = memory        # объем встроенной памяти
+        self.color = color      # цвет
+
+
+class LawnGrass(Product):
+
+    def __init__(self, name, description, price, quantity, country, germination_period, color):
+        super().__init__(name, description, price, quantity)
+        self.country = country   # страна-производитель
+        self.germination_period = germination_period    # срок прорастания
+        self.color = color  # цвет
 
 
 class Category:
@@ -72,10 +94,13 @@ class Category:
         """Метод для добавления нового продукта в категорию, при совпадении наименования -
         установление максимального прайса и сложение количества"""
         for product in self.__products:
+            if not isinstance(new_product, Product):
+                raise TypeError
             if product.name == new_product.name:
                 product.price = max(product.price, new_product.price)
                 product.quantity += new_product.quantity
-                return
+                break
+
         self.__products.append(new_product)
         self.product_count += 1
         Category.product_count += 1
