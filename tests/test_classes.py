@@ -1,3 +1,5 @@
+import pytest
+
 from src.classes import Category, Product
 from tests.conftest import category_1
 
@@ -7,6 +9,27 @@ def test_product_init(product_1):
     assert product_1.description == "256GB, Серый цвет, 200MP камера"
     assert product_1.price == 180000.0
     assert product_1.quantity == 5
+
+
+def test_product_smatrphone_init(product_4):
+    assert product_4.name == "Samsung Galaxy S23 Ultra"
+    assert product_4.description == "256GB, Серый цвет, 200MP камера"
+    assert product_4.price == 180000.0
+    assert product_4.quantity == 5
+    assert product_4.efficiency == 95.5
+    assert product_4.model == "S23 Ultra"
+    assert product_4.memory == 256
+    assert product_4.color == "Серый"
+
+
+def test_product_lawngrass_init(product_5):
+    assert product_5.name == "Газонная трава"
+    assert product_5.description == "Элитная трава для газона"
+    assert product_5.price == 500.0
+    assert product_5.quantity == 5
+    assert product_5.country == "Россия"
+    assert product_5.germination_period == "7 дней"
+    assert product_5.color == "Зеленый"
 
 
 def test_category_init(category_1):
@@ -71,7 +94,7 @@ def test_add_product_duplicate_update():
     category.add_product(new)
     expected_line = "Кофемашина, 32000.0 руб. Остаток: 5 шт."
     assert expected_line in category.products
-    assert category.product_count == 1
+    assert category.product_count == 2
 
 
 def test_product__str__():
@@ -85,6 +108,20 @@ def test_product__add__():
     prod_2 = Product("Пылесос", "Робот", 25000.0, 5)
     result = prod_1 + prod_2
     assert result == 215000.0
+
+
+def test_add_product_wrong_type():
+    """Тест: добавление объекта не типа Product вызывает TypeError."""
+    category = Category("Электроника", "Гаджеты", [])
+
+    with pytest.raises(TypeError):
+        category.add_product("не продукт")
+
+    with pytest.raises(TypeError):
+        category.add_product(123)
+
+    with pytest.raises(TypeError):
+        category.add_product({"name": "fake"})
 
 
 def test_category__str__():

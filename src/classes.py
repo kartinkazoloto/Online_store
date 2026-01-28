@@ -55,23 +55,22 @@ class Product:
         raise TypeError
 
 
-
 class Smartphone(Product):
 
     def __init__(self, name, description, price, quantity, efficiency, model, memory, color):
         super().__init__(name, description, price, quantity)
         self.efficiency = efficiency  # производительность
-        self.model = model          # модель
-        self.memory = memory        # объем встроенной памяти
-        self.color = color      # цвет
+        self.model = model  # модель
+        self.memory = memory  # объем встроенной памяти
+        self.color = color  # цвет
 
 
 class LawnGrass(Product):
 
     def __init__(self, name, description, price, quantity, country, germination_period, color):
         super().__init__(name, description, price, quantity)
-        self.country = country   # страна-производитель
-        self.germination_period = germination_period    # срок прорастания
+        self.country = country  # страна-производитель
+        self.germination_period = germination_period  # срок прорастания
         self.color = color  # цвет
 
 
@@ -93,9 +92,9 @@ class Category:
     def add_product(self, new_product: Product):
         """Метод для добавления нового продукта в категорию, при совпадении наименования -
         установление максимального прайса и сложение количества"""
+        if not isinstance(new_product, Product):
+            raise TypeError
         for product in self.__products:
-            if not isinstance(new_product, Product):
-                raise TypeError
             if product.name == new_product.name:
                 product.price = max(product.price, new_product.price)
                 product.quantity += new_product.quantity
@@ -107,7 +106,7 @@ class Category:
 
     def __str__(self):
         """Метод __str__ рассчитывает общее количество товаров на складе (quantity) для каждого продукта
-         в приватном атрибуте products"""
+        в приватном атрибуте products"""
         total_quantity = sum(product.quantity for product in self.__products)
         return f"{self.name}, количество продуктов: {total_quantity} шт."
 
@@ -117,4 +116,3 @@ class Category:
         for product in self.__products:
             lines.append(f"{product.name}, {product.price} руб. Остаток: {product.quantity} шт.")
         return "\n".join(lines)
-
