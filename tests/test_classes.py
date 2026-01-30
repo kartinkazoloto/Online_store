@@ -1,7 +1,7 @@
 import pytest
 
 from src.classes import Category, Product
-from tests.conftest import category_1
+from tests.conftest import category_1, product_5
 
 
 def test_product_init(product_1):
@@ -103,11 +103,13 @@ def test_product__str__():
     assert result == "Пылесос, 25000.0 руб. Остаток: 5 шт."
 
 
-def test_product__add__():
+def test_product__add__(product_5):
     prod_1 = Product("Кофемашина", "Автоматическая", 30000.0, 3)
     prod_2 = Product("Пылесос", "Робот", 25000.0, 5)
     result = prod_1 + prod_2
     assert result == 215000.0
+    with pytest.raises(TypeError):
+        Product.__add__(prod_1, product_5)
 
 
 def test_add_product_wrong_type():
