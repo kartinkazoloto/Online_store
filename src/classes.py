@@ -29,6 +29,8 @@ class Product(MixinLog, BaseProduct):
         self.__price = price  # цена
         self.quantity = quantity  # количество в наличии
         super().__init__()
+        if quantity <= 0:
+            raise ValueError("Товар с нулевым количеством не может быть добавлен")
 
     @classmethod
     def new_product(cls, product_data: dict):
@@ -136,3 +138,13 @@ class Category:
         for product in self.__products:
             lines.append(f"{product.name}, {product.price} руб. Остаток: {product.quantity} шт.")
         return "\n".join(lines)
+
+    def middle_price(self):
+        #     """Метод, который подсчитывает средний ценник всех товаров."""
+        try:
+            if not self.__products:
+                return 0
+            return sum(product.price for product in self.__products if self.product_count > 0) / self.product_count
+        except ZeroDivisionError as e:
+            print(e)
+            print("Нет товаров в категории")

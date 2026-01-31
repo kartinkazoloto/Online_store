@@ -11,6 +11,14 @@ def test_product_init(product_1):
     assert product_1.quantity == 5
 
 
+def test_product_init_0():
+    with pytest.raises(ValueError) as e:
+        Product(
+            name="Samsung Galaxy S23 Ultra", description="256GB, Серый цвет, 200MP камера", price=180000.0, quantity=0
+        )
+    assert "Товар с нулевым количеством не может быть добавлен" in str(e.value)
+
+
 def test_product_smatrphone_init(product_4):
     assert product_4.name == "Samsung Galaxy S23 Ultra"
     assert product_4.description == "256GB, Серый цвет, 200MP камера"
@@ -133,3 +141,9 @@ def test_category__str__():
     category = Category("Кухня", "Техника для приготовления", [existing])
     result = str(category)
     assert result == "Кухня, количество продуктов: 3 шт."
+
+
+def test_middle_price():
+    cat_0 = Category("Пустая категория", "Категория без продуктов", [])
+    result = cat_0.middle_price()
+    assert result == 0
